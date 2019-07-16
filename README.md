@@ -18,7 +18,7 @@ This is a work in progress.
 
 > ☑ Chapter 19 - A First Look at Prolog
 >
-> ☐ Chapter 20 - A Second Look at Prolog
+> ☑ Chapter 20 - A Second Look at Prolog
 >
 > ☐ Chapter 22 - A Third Look at Prolog
 
