@@ -92,11 +92,6 @@ subsetsum(L, Sum, SubL) :-
 
 % Exercise 7
 % The maxCalories predicate on page 483 is rather ineffecient. In particular, the helper predicate maxC uses calories to compute the sum of the calories in a list of food items - and sometimes does so twice for the same list of food terms. Rewrite maxCalories and maxC to make them more efficient - in particular, make sure you eliminate the redundant computations of calories.
-calories([], 0).
-calories([food(_, _, C)|Rest], X) :-
-    calories(Rest, RestC),
-    X is C + RestC.
-
 maxC([_], Sofar, MC, FirstC, Sofar) :-
     MC > FirstC.
 maxC([First], _, MC, FirstC, First) :-
@@ -105,7 +100,7 @@ maxC([First, Second|Rest], _, MC, FirstC, Result) :-
     MC =< FirstC,
     calories(Second, SecondC),
     maxC([Second|Rest], First, FirstC, SecondC, Result).
-maxC([First|Rest], Sofar, MC, FirstC, Result) :-
+maxC([_, Second|Rest], Sofar, MC, FirstC, Result) :-
     MC > FirstC,
     calories(Second, SecondC),
     maxC([Second|Rest], Sofar, MC, SecondC, Result).
@@ -117,4 +112,29 @@ maxCalories([First, Second|Rest], Result) :-
 
 % Exercise 8
 % Define a predicate multiknap(Pantry, Capacity, Knapsack) that works like the knapsackOptimization predicate from this chapter, but solves the multiple-choice knapsack problem. In this version of the problem you are allowed to take any number of each kind of item in the refridgerator.
+subseqMK([], [], _, _).
+subseqMK([food(N, W, C) | RestX], [food(N, W, C) | RestY], CurrCap, Cap) :-
+    Temp is CurrCap + W,
+    Temp =< Cap,
+    subseqMK(RestX, RestY, Temp, Cap).
+subseqMK([food(N, W, C) | RestX], [food(N, W, C) | RestY], CurrCap, Cap) :-
+    Temp is CurrCap + W,
+    Temp =< Cap,
+    subseqMK(RestX, [food(N, W, C)|RestY], Temp, Cap).
+subseqMK(X, [_|RestY], CurrCap, Cap) :-
+    subseqMK(X, RestY, CurrCap, Cap).
+
+calories([], 0).
+calories([food(_, _, C) | Rest], X) :-
+    calories(Rest, RestC),
+    X is C + RestC.
+
+legalKnapsack(Pantry, Capacity, Knapsack) :-
+    subseqMK(Knapsack, Pantry, 0, Capacity).
+
+multiknap(Pantry, Capacity, Knapsack) :-
+    findall(K, legalKnapsack(Pantry, Capacity, K), L),
+    maxCalories(L, Knapsack).
+
+% Exercise 9
 % WIP
