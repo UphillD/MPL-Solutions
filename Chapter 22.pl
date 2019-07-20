@@ -92,5 +92,29 @@ subsetsum(L, Sum, SubL) :-
 
 % Exercise 7
 % The maxCalories predicate on page 483 is rather ineffecient. In particular, the helper predicate maxC uses calories to compute the sum of the calories in a list of food items - and sometimes does so twice for the same list of food terms. Rewrite maxCalories and maxC to make them more efficient - in particular, make sure you eliminate the redundant computations of calories.
+calories([], 0).
+calories([food(_, _, C)|Rest], X) :-
+    calories(Rest, RestC),
+    X is C + RestC.
 
+maxC([_], Sofar, MC, FirstC, Sofar) :-
+    MC > FirstC.
+maxC([First], _, MC, FirstC, First) :-
+    MC =< FirstC.
+maxC([First, Second|Rest], _, MC, FirstC, Result) :-
+    MC =< FirstC,
+    calories(Second, SecondC),
+    maxC([Second|Rest], First, FirstC, SecondC, Result).
+maxC([First|Rest], Sofar, MC, FirstC, Result) :-
+    MC > FirstC,
+    calories(Second, SecondC),
+    maxC([Second|Rest], Sofar, MC, SecondC, Result).
+
+maxCalories([First, Second|Rest], Result) :-
+    calories(First, FirstC),
+    calories(Second, SecondC),
+    maxC([Second|Rest], First, FirstC, SecondC, Result).
+
+% Exercise 8
+% Define a predicate multiknap(Pantry, Capacity, Knapsack) that works like the knapsackOptimization predicate from this chapter, but solves the multiple-choice knapsack problem. In this version of the problem you are allowed to take any number of each kind of item in the refridgerator.
 % WIP
