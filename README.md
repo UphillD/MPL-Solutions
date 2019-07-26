@@ -20,7 +20,7 @@ This is a work in progress.
 >
 > ☑ Chapter 20 - A Second Look at Prolog
 >
-> ☐ Chapter 22 - A Third Look at Prolog
+> ☑ Chapter 22 - A Third Look at Prolog
 
 ## Other
 
