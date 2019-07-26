@@ -31,7 +31,7 @@ connect(path, forward, fork).
 connect(fork, left, maze(0)).
 connect(fork, right, gate).
 connect(gate, forward, gateTemp).
-connect(gate, back, fork).
+connect(gate, backward, fork).
 connect(maze(0), left, maze(1)).
 connect(maze(0), right, maze(3)).
 connect(maze(1), left, maze(0)).
@@ -58,7 +58,7 @@ move(_) :-
 forward :- move(forward).
 left :- move(left).
 right :- move(right).
-back :- move(back).
+backward :- move(backward).
 
 % If you and the ogre are at the same place, it kills you.
 ogre :-
@@ -202,7 +202,7 @@ go :-
     assert(at(treasure, mountaintop)),
     assert(at(key, maze(2))),
     write('This is an adventure game. \n'),
-    write('Legal moves are left, right, or forward.\n'),
+    write('Legal moves are left, right, forward or backward.\n'),
     write('End each move with a period.\n\n'),
     report,
     main.

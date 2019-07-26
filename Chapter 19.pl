@@ -75,7 +75,7 @@ oddSize([_, _|T]) :-
 
 % Exercise 13
 % Define the evenSize predicate so that evenSize(X) says that X is a list whose length is an even number.
-evenSize([_, _]).
+evenSize([]).
 evenSize([_, _|T]) :-
     evenSize(T).
 
@@ -123,10 +123,10 @@ isEqual([H|T], Y) :-
 % Exercise 19
 % Define the powerset predicate so that powerset(X,Y) says that the powerset of X is Y.
 powersetHelper([], []).
-powersetHelper([H|T1], [H|T2]) :-
-    powersetHelper(T1, T2).
-powersetHelper([_|T1], T2) :-
-    powersetHelper(T1, T2).
+powersetHelper([H|Tl], [H|Tp]) :-
+    powersetHelper(Tl, Tp).
+powersetHelper([_|Tl], P) :-
+    powersetHelper(Tl, P).
 powerset(L, P) :-
     findall(X, powersetHelper(L, X), P).
 
@@ -137,6 +137,7 @@ diffHelper1(X, Y, [H|T]) :-
     isMember(H, X),
     \+ isMember(H, Y),
     diffHelper1(X, Y, T).
+
 diffHelper2([], _, []).
 diffHelper2([H|T1], Y, [H|T2]) :-
     \+ isMember(H, Y),
@@ -144,6 +145,7 @@ diffHelper2([H|T1], Y, [H|T2]) :-
 diffHelper2([H|T], Y, Z) :-
     isMember(H, Y),
     diffHelper2(T, Y, Z).
+    
 isDifference(X, Y, Z) :-
     \+ var(Z),
     diffHelper1(X, Y, Z).
