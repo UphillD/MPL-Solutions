@@ -137,4 +137,40 @@ multiknap(Pantry, Capacity, Knapsack) :-
     maxCalories(L, Knapsack).
 
 % Exercise 9
-% WIP
+% a. Write a predicate coverDecision(Set,Subsets,Goal,Cover) that takes a list Set, a list Subsets containing subsequences of a set, and a positive number Goal. It unifies Cover with a subsequence of Subests that covers Set and has length =< Goal. It fails if there is no such Cover. Your solution should be able to generate all covers satisfying the goal.
+findCover([], []).
+findCover([H|T], [H|Cover]) :-
+    findCover(T, Cover).
+findCover([_|T], Cover) :-
+    findCover(T, Cover).
+
+ccHelper(Elem, [H|_]) :-
+    member(Elem, H).
+ccHelper(Elem, [H|T]) :-
+    \+ member(Elem, H),
+    ccHelper(Elem, T).
+
+checkCover([], _).
+checkCover([H|T], Cover) :-
+    ccHelper(H, Cover),
+    checkCover(T, Cover).
+
+coverDecision(Set, Subsets, Goal, Cover) :-
+    findCover(Subsets, Cover),
+    length(Cover, CoverLength),
+    CoverLength =< Goal,
+    checkCover(Set, Cover).
+
+% b. Write a predicate coverOptimization(Set,Subsets,Cover) that takes a list Set and a list Subsets containing subsequences of Set. It unifies Cover with a subsequence of Subsets that covers Set and has minimum length. It fails if there is no covering subsequence. Your solution should be able to generate all minimum-length covers.
+coverOptimization(Set, Subsets, Cover) :-
+    length(Subsets, MaxLength),
+    coHelper(Set, Subsets, Cover, 1, MaxLength).
+
+coHelper(Set, Subsets, Cover, Goal, MaxLength) :-
+    Goal =< MaxLength,
+    coverDecision(Set, Subsets, Goal, Cover).
+coHelper(Set, Subsets, Cover, Goal, MaxLength) :-
+    Goal =< MaxLength,
+    \+ coverDecision(Set, Subsets, Goal, Cover),
+    GoalNew is Goal + 1,
+    coHelper(Set, Subsets, Cover, GoalNew, MaxLength).
