@@ -110,7 +110,7 @@ isIntersection([H|Tx], Y, [H|Tz]) :-
     isIntersection(Tx, Y, Tz),
     isMember(H, Y).
 isIntersection([H|Tx], Y, Z) :-
-   	isIntersection(Tx, Y, Z),
+    isIntersection(Tx, Y, Z),
     \+ isMember(H, Y).
 
 % Exercise 18
@@ -127,6 +127,7 @@ powersetHelper([H|Tl], [H|Tp]) :-
     powersetHelper(Tl, Tp).
 powersetHelper([_|Tl], P) :-
     powersetHelper(Tl, P).
+
 powerset(L, P) :-
     findall(X, powersetHelper(L, X), P).
 
