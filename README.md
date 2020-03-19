@@ -2,12 +2,10 @@
 
 This is my collection of personally crafted solutions for the exercises included in the book "Modern Programming Languages: A Practical Approach (2nd Edition)" by Adam Brooks Webber.
 
-This is a work in progress.
-
 ## Chapters
 
 > ☑ Chapter 5 - A First Look at ML
-> 
+>
 > ☑ Chapter 7 - A Second Look at ML
 >
 > ☑ Chapter 9 - A Third Look at ML
