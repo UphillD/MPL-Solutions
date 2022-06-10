@@ -40,7 +40,7 @@ firstCousin(X, Y) :-
 descendant(X, Y) :-
     parent(Y, X).
 descendant(X, Y) :-
-    parent(Z, X),
+    parent(X, Z),
     descendant(Z, Y).
 
 % Exercise 7
